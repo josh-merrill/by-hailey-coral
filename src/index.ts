@@ -1,7 +1,9 @@
-import { greetUser } from '$utils/greet';
+import { initRevealAnimations } from './animations/revealAnimations';
+import { initCarousels } from './carousels';
+import { initFinsweetCmsSlider } from './finsweet/cmsSliderConfig';
 
-window.Webflow ||= [];
-window.Webflow.push(() => {
-  const name = 'John Doe';
-  greetUser(name);
+document.addEventListener('DOMContentLoaded', () => {
+  initRevealAnimations();
+  initCarousels();
+  initFinsweetCmsSlider();
 });

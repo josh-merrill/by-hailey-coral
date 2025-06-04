@@ -1,0 +1,9 @@
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -o-font-smoothing: antialiased;
+}
+.navbar1_link-wrapper { overflow: visible; }
+.navbar1_link { ... }
+.navbar1_link::after { ... }
+.navbar1_link-wrapper:hover .navbar1_link::after { ... }
