@@ -1,9 +1,11 @@
-import Swiper, { Navigation, Pagination, Keyboard, A11y, Grid, Mousewheel } from 'swiper';
+import { Navigation, Pagination, Keyboard, A11y, Grid, Mousewheel } from 'swiper/modules';
+import Swiper from 'swiper';
+
+Swiper.use([Navigation, Pagination, Keyboard, A11y, Grid, Mousewheel]);
 
 export const initCarousels = () => {
   // Top Carousel
   new Swiper('.top-carousel', {
-    modules: [Navigation, Pagination, Keyboard, A11y, Grid],
     slidesPerView: 3,
     grid: { rows: 2, fill: 'row' },
     spaceBetween: 20,
@@ -21,7 +23,6 @@ export const initCarousels = () => {
 
   // Middle Carousel
   new Swiper('.middle-carousel', {
-    modules: [Pagination, Keyboard, A11y, Mousewheel],
     direction: 'vertical',
     slidesPerView: 3,
     spaceBetween: 20,
@@ -36,7 +37,6 @@ export const initCarousels = () => {
 
   // Bottom Carousel
   new Swiper('.bottom-carousel', {
-    modules: [Navigation, Pagination, Keyboard, A11y, Grid],
     slidesPerView: 4,
     grid: { rows: 1, fill: 'row' },
     spaceBetween: 20,
