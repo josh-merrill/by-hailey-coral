@@ -3,6 +3,7 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 export const initCardStack = () => {
   gsap.registerPlugin(ScrollTrigger);
+  console.error('initCardStack running');
 
   const cards = gsap.utils.toArray<HTMLElement>('.card');
   const totalCards = cards.length;
