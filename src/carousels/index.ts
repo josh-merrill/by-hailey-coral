@@ -1,59 +1,40 @@
 import Swiper from 'swiper';
-import { Grid, Navigation, Pagination, Keyboard, A11y, Mousewheel } from 'swiper/modules';
+import { Grid, Navigation, Pagination, Keyboard, A11y, Mousewheel, EffectFade, EffectCreative } from 'swiper/modules';
+import gsap from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
 
 // Register all needed modules ONCE at the top of this file:
-Swiper.use([Grid, Navigation, Pagination, Keyboard, A11y, Mousewheel]);
+Swiper.use([Grid, Navigation, Pagination, Keyboard, A11y, Mousewheel, EffectFade, EffectCreative]);
 
 export const initCarousels = () => {
-  // Top Carousel: Responsive grid
-  // const topCarousel = document.querySelector('.carousel_top');
-  // if (topCarousel) {
-  //   new Swiper(topCarousel, {
-  //     slidesPerView: 2,
-  //     grid: { rows: 2, fill: 'row' },
-  //     spaceBetween: 24,
-  //     breakpoints: {
-  //       640: { slidesPerView: 1, grid: { rows: 2 } },
-  //       1024: { slidesPerView: 2, grid: { rows: 2 } },
-  //     },
-  //     navigation: false,
-  //     pagination: false,
-  //   });
-  // }
-
-  // Middle Carousel: Vertical, sticky, full width
   new Swiper('.middle-carousel', {
     direction: 'vertical',
     slidesPerView: 1,
-    spaceBetween: 16,
+    spaceBetween: 0,
     mousewheel: true,
     pagination: {
       el: '.middle-carousel .swiper-pagination',
       clickable: true,
     },
+    effect: 'creative',
+    creativeEffect: {
+      prev: {
+        shadow: false,
+        translate: [0, -60, -150],
+        rotate: [0, 0, -8],
+        opacity: 0.7,
+        scale: 0.95,
+      },
+      next: {
+        shadow: false,
+        translate: [0, 60, -150],
+        rotate: [0, 0, 8],
+        opacity: 0.7,
+        scale: 0.95,
+      },
+    },
+    speed: 400,
     keyboard: { enabled: true },
     a11y: { enabled: true },
-    // Optionally, add breakpoints for vertical responsiveness
   });
-
-  // Bottom Carousel: Responsive grid
-  // new Swiper('.bottom-carousel', {
-  //   slidesPerView: 1,
-  //   grid: { rows: 1, fill: 'row' },
-  //   spaceBetween: 16,
-  //   navigation: {
-  //     nextEl: '.bottom-carousel .swiper-button-next',
-  //     prevEl: '.bottom-carousel .swiper-button-prev',
-  //   },
-  //   pagination: {
-  //     el: '.bottom-carousel .swiper-pagination',
-  //     clickable: true,
-  //   },
-  //   keyboard: { enabled: true },
-  //   a11y: { enabled: true },
-  //   breakpoints: {
-  //     640: { slidesPerView: 2, grid: { rows: 1 } },
-  //     1024: { slidesPerView: 3, grid: { rows: 1 } },
-  //   },
-  // });
 };
