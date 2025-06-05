@@ -1,7 +1,14 @@
 import Swiper from 'swiper';
-import { Grid, Navigation, Pagination, Keyboard, A11y, Mousewheel, EffectFade, EffectCreative } from 'swiper/modules';
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import {
+  Grid,
+  Navigation,
+  Pagination,
+  Keyboard,
+  A11y,
+  Mousewheel,
+  EffectFade,
+  EffectCreative,
+} from 'swiper/modules';
 
 // Register all needed modules ONCE at the top of this file:
 Swiper.use([Grid, Navigation, Pagination, Keyboard, A11y, Mousewheel, EffectFade, EffectCreative]);
