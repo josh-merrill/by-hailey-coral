@@ -1,34 +1,7 @@
-// Fixed cardStack.ts - works with globally loaded GSAP
-// Change your imports to use global GSAP instead
-
-// Remove these imports:
-// import { gsap } from 'gsap';
-// import { ScrollTrigger } from 'gsap/ScrollTrigger';
-
-// Instead, use global GSAP
-declare global {
-  interface Window {
-    gsap: any;
-    ScrollTrigger: any;
-  }
-}
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 export const initCardStack = () => {
-  // Wait for GSAP to be available
-  if (typeof window.gsap === 'undefined') {
-    console.error('GSAP not loaded yet, retrying...');
-    setTimeout(initCardStack, 100);
-    return;
-  }
-
-  if (typeof window.ScrollTrigger === 'undefined') {
-    console.error('ScrollTrigger not loaded yet, retrying...');
-    setTimeout(initCardStack, 100);
-    return;
-  }
-
-  const { gsap } = window;
-  const { ScrollTrigger } = window;
 
   gsap.registerPlugin(ScrollTrigger);
   console.log('✅ initCardStack running with GSAP:', gsap.version);
@@ -68,7 +41,7 @@ export const initCardStack = () => {
       rotate: initialRotation,
     });
 
-    const otherCards = cards.filter((c, j) => j !== i);
+    const otherCards = cards.filter((_, j) => j !== i);
     const nextCard = cards[i + 1];
     if (nextCard) {
       tl.to(
