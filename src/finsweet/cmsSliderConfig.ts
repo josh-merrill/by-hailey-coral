@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    fsAttributes: any[];
+  }
+}
+
 export const initFinsweetCmsSlider = () => {
   window.fsAttributes = window.fsAttributes || [];
   window.fsAttributes.push([

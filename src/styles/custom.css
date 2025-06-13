@@ -10,6 +10,7 @@
 .fade-up:not(.card) {
   opacity: 0;
   transform: translateY(50px);
+  will-change: transform, opacity;
 }
 
 /* Show elements when GSAP is ready */
@@ -207,7 +208,9 @@ html {
   top: 20px; /* Offset to center within padded container */
   left: 20px; /* Offset to center within padded container */
   /* Ensure transforms are applied properly */
-  will-change: transform;
+  will-change: transform, opacity;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
 }
 .card img {
   border-radius: 16px;

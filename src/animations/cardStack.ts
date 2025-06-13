@@ -14,63 +14,63 @@ export const initCardStack = () => {
 
   // Set initial state - cards stacked like a deck with visible offsets
   cards.forEach((card, i) => {
-    // Clear any existing animations/transforms first
     gsap.killTweensOf(card);
-
-    // First, clear any inline styles that might interfere
     gsap.set(card, { clearProps: 'all' });
 
-    // Wait a frame then apply the initial transform
     gsap.set(card, {
       rotationX: 0,
-      rotationY: 0,
-      rotationZ: i * 1, // More noticeable rotation for each card
-      y: i * 12, // Even larger vertical offset for visibility
-      x: i * 6, // Larger horizontal offset for deck effect
-      scale: 1 - i * 0.03, // More noticeable scale decrease
+      rotationZ: i * 2,
+      y: i * 15,
+      x: i * 8,
+      scale: 1 - i * 0.04,
       zIndex: totalCards - i,
       transformOrigin: '50% 50%',
       opacity: 1,
-      // Force 3D transforms for better performance
       force3D: true,
     });
 
-    // Add data attribute for debugging
     card.setAttribute('data-card-index', i.toString());
   });
 
-  // Create individual ScrollTrigger for each card
+  // Create single ScrollTrigger that pins the entire sequence
+  const tl = gsap.timeline({
+    scrollTrigger: {
+      trigger: '.cards-section',
+      start: 'center center', // Start when section is centered in viewport
+      end: `+=${totalCards * 120}`, // Duration based on number of cards
+      scrub: 0.8,
+      pin: true, // Pin the entire section during animation
+      anticipatePin: 1,
+    }
+  });
+
+  // Add each card flip to the timeline
   cards.forEach((card, i) => {
     if (i < totalCards - 1) {
-      ScrollTrigger.create({
-        trigger: '.cards-section',
-        start: `top+=${i * 200} center`,
-        end: `top+=${(i + 1) * 200} center`,
-        scrub: 1,
-        pin: i === 0 ? '.cards-section' : false,
-        onUpdate: ({ progress }) => {
-          // Animate current card moving down
-          gsap.to(card, {
-            y: i * 12 + progress * 200, // Move down from deck position
-            rotationZ: i * 1 + progress * 10, // Increase rotation
-            opacity: 1 - progress * 0.8, // Fade out
-            scale: 1 - i * 0.03 - progress * 0.2, // Scale down
-            duration: 0.1,
-            ease: 'none',
-          });
+      const startTime = i * 0.8; // Stagger card flips
+      const duration = 0.6;
+      
+      // Current card flips away dramatically
+      tl.to(card, {
+        rotationX: 180, // Full flip
+        rotationZ: i * 2 + 25, // More dramatic rotation
+        y: i * 15 + 300, // Moves down more
+        scale: (1 - i * 0.04) * 0.4, // Scales down significantly
+        opacity: 0.1, // Fades out more completely
+        zIndex: -1, // Send to back when flipped
+        ease: 'power2.inOut',
+        duration: duration,
+      }, startTime);
 
-          // Move remaining cards up
-          if (progress > 0.5) {
-            cards.slice(i + 1).forEach((nextCard, j) => {
-              gsap.to(nextCard, {
-                y: (i + 1 + j) * 12 - (progress - 0.5) * 24,
-                scale: 1 - (i + 1 + j) * 0.03 + (progress - 0.5) * 0.06,
-                duration: 0.1,
-                ease: 'none',
-              });
-            });
-          }
-        },
+      // Next cards snap up into position (slightly delayed)
+      cards.slice(i + 1).forEach((nextCard, j) => {
+        tl.to(nextCard, {
+          y: (i + j) * 15, // Move up one position
+          scale: 1 - (i + j) * 0.04, // Adjust scale
+          rotationZ: (i + j) * 2, // Adjust rotation
+          ease: 'power2.out',
+          duration: duration * 0.7,
+        }, startTime + duration * 0.3);
       });
     }
   });
