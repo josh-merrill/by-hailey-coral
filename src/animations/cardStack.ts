@@ -54,17 +54,17 @@ export const initCardStack = () => {
             y: i * 12 + progress * 200, // Move down from deck position
             rotationZ: i * 1 + progress * 10, // Increase rotation
             opacity: 1 - progress * 0.8, // Fade out
-            scale: (1 - i * 0.03) - progress * 0.2, // Scale down
+            scale: 1 - i * 0.03 - progress * 0.2, // Scale down
             duration: 0.1,
             ease: 'none',
           });
-          
+
           // Move remaining cards up
           if (progress > 0.5) {
             cards.slice(i + 1).forEach((nextCard, j) => {
               gsap.to(nextCard, {
                 y: (i + 1 + j) * 12 - (progress - 0.5) * 24,
-                scale: (1 - (i + 1 + j) * 0.03) + (progress - 0.5) * 0.06,
+                scale: 1 - (i + 1 + j) * 0.03 + (progress - 0.5) * 0.06,
                 duration: 0.1,
                 ease: 'none',
               });

@@ -5,6 +5,20 @@
   -o-font-smoothing: antialiased;
 }
 
+/* Animation Initial States */
+.reveal:not(.card),
+.fade-up:not(.card) {
+  opacity: 0;
+  transform: translateY(50px);
+}
+
+/* Show elements when GSAP is ready */
+.gsap-ready .reveal:not(.card),
+.gsap-ready .fade-up:not(.card) {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 html {
   scroll-behavior: smooth;
 }
@@ -235,11 +249,3 @@ html {
     border-radius: 10px;
   }
 }
-
-/* Gradient Utility Classes */
-.gradient-green { background: linear-gradient(135deg, #a8ff78 0%, #78ffd6 100%); }
-.gradient-orange { background: linear-gradient(135deg, #ffb347 0%, #ffcc33 100%); }
-.gradient-red { background: linear-gradient(135deg, #ff5858 0%, #f09819 100%); }
-.gradient-blue { background: linear-gradient(135deg, #43cea2 0%, #185a9d 100%); }
-.gradient-purple { background: linear-gradient(135deg, #a18cd1 0%, #fbc2eb 100%); }
-.center { display: flex; align-items: center; justify-content: center; }
