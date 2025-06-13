@@ -2,7 +2,6 @@ import gsap from 'gsap';
 import ScrollTrigger from 'gsap/ScrollTrigger';
 
 export const initCardStack = () => {
-
   gsap.registerPlugin(ScrollTrigger);
   console.log('✅ initCardStack running with GSAP:', gsap.version);
 
@@ -14,74 +13,59 @@ export const initCardStack = () => {
   }
 
   const totalCards = cards.length;
-  const scaleStep = 0.15 / totalCards;
 
-  // More subtle rotation values for a natural look
-  const rotations = [-2, 2, -3, 3, -2, 2, -3, 2, -2, 3];
+  // Set initial state - cards stacked like postcards
+  cards.forEach((card, i) => {
+    gsap.set(card, {
+      rotationX: 0,
+      rotationY: 0,
+      rotationZ: (Math.random() - 0.5) * 4, // Slight random rotation
+      y: i * -8, // Stack cards with more separation
+      x: (Math.random() - 0.5) * 12, // Random horizontal offset for natural look
+      scale: 1 - i * 0.02, // Slightly smaller cards behind
+      zIndex: totalCards - i,
+      transformOrigin: '50% 100%', // Flip from bottom like postcards
+      transformStyle: 'preserve-3d',
+    });
+  });
 
+  // Create timeline for the stack animation
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: '.cards-section',
-      start: 'center center',
-      end: '+=' + window.innerHeight * 0.1 * totalCards, // dynamic scroll
-      scrub: true,
+      start: 'top center',
+      end: `+=${totalCards * 150}vh`, // Longer scroll distance
+      scrub: 1,
       pin: true,
-      // markers: true, // Uncomment for debugging
+      anticipatePin: 1,
     },
   });
 
+  // Animate each card flipping away
   cards.forEach((card, i) => {
-    // Assign a rotation from the array, cycling if more cards than rotations
-    const initialRotation = rotations[i % rotations.length];
-
-    gsap.set(card, {
-      y: -(15 * i),
-      scale: 1 - scaleStep * i,
-      zIndex: totalCards - i,
-      rotate: initialRotation,
-    });
-
-    const otherCards = cards.filter((_, j) => j !== i);
-    const nextCard = cards[i + 1];
-    if (nextCard) {
+    if (i < totalCards - 1) {
       tl.to(
         card,
         {
+          rotationX: -180, // Flip backwards like turning a page
+          y: i * -8 - 100, // Move up and away
           opacity: 0,
-          scale: 1.1,
-          y: 35,
-          rotate: 0, // Animate to straight
+          scale: 0.8,
+          duration: 1,
+          ease: 'power2.inOut',
         },
-        '+=0.5'
-      )
+        i * 0.3
+      ) // Stagger the animations
         .to(
-          nextCard,
+          cards.slice(i + 1),
           {
-            scale: 1,
-            zIndex: '+=1',
-            y: 0,
-            rotate: 0, // Animate to straight
+            y: `+=${8}`, // Move remaining cards up
+            scale: `+=0.02`, // Scale up slightly
+            duration: 1,
+            ease: 'power2.inOut',
           },
-          '<'
-        )
-        .to(
-          otherCards,
-          {
-            y: '+=15',
-            zIndex: '+=1',
-            scale: '+=' + scaleStep,
-            // Keep their rotation as is
-          },
-          '<'
-        )
-        .set(card, { zIndex: 0 })
-        .to(card, {
-          y: -15 * (totalCards - 1),
-          scale: 0.85,
-          opacity: 1,
-          rotate: initialRotation, // Reset to original rotation for looping
-        });
+          i * 0.3
+        );
     }
   });
-  tl.to({}, {});
 };
