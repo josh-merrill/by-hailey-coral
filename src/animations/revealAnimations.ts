@@ -5,7 +5,7 @@ export const initRevealAnimations = () => {
   gsap.registerPlugin(ScrollTrigger);
 
   // Exclude cards from reveal animations since they have their own animation
-  const elements = document.querySelectorAll('.reveal:not(.card)');
+  const elements = document.querySelectorAll('.reveal:not(.card), .fade-up:not(.card)');
   elements.forEach((el) => {
     gsap.from(el, {
       opacity: 0,

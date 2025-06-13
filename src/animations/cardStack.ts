@@ -51,32 +51,32 @@ export const initCardStack = () => {
     },
   });
 
-  // Animate each card sliding away from the deck
+  // Animate each card shuffling from top to bottom
   cards.forEach((card, i) => {
     if (i < totalCards - 1) {
       tl.to(
         card,
         {
-          x: 300 + i * 20, // Slide cards to the right and away
-          y: i * 4 - 50, // Move slightly up
-          rotationZ: 15, // Slight rotation as it slides away
-          opacity: 0.3,
-          scale: 0.9,
-          duration: 1,
-          ease: 'power2.out',
+          y: 200 + i * 50, // Move cards down and away (top to bottom)
+          rotationZ: (Math.random() - 0.5) * 10, // Random slight rotation
+          opacity: 0,
+          scale: 0.8,
+          duration: 1.2,
+          ease: 'power2.inOut',
         },
-        i * 0.4
-      ) // Stagger the animations with more spacing
+        i * 0.5
+      ) // Animate each card moving to bottom
         .to(
           cards.slice(i + 1),
           {
-            y: `-=${4}`, // Move remaining cards up to fill the gap
-            x: `-=${2}`, // Move remaining cards left slightly
-            scale: `+=0.01`, // Scale up very slightly
-            duration: 1,
-            ease: 'power2.out',
+            y: `-=${12}`, // Move remaining cards up to take the top position
+            x: `-=${6}`, // Move remaining cards left slightly
+            scale: `+=0.03`, // Scale up to become the new top card
+            rotationZ: `-=${1}`, // Reduce rotation as they move up
+            duration: 1.2,
+            ease: 'power2.inOut',
           },
-          i * 0.4
+          i * 0.5
         );
     }
   });
