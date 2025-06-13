@@ -39,45 +39,39 @@ export const initCardStack = () => {
     card.setAttribute('data-card-index', i.toString());
   });
 
-  // Create timeline for the stack animation
-  const tl = gsap.timeline({
-    scrollTrigger: {
-      trigger: '.cards-section',
-      start: 'top center',
-      end: `+=${totalCards * 150}vh`, // Longer scroll distance
-      scrub: 1,
-      pin: true,
-      anticipatePin: 1,
-    },
-  });
-
-  // Animate each card shuffling from top to bottom
+  // Create individual ScrollTrigger for each card
   cards.forEach((card, i) => {
     if (i < totalCards - 1) {
-      tl.to(
-        card,
-        {
-          y: 200 + i * 50, // Move cards down and away (top to bottom)
-          rotationZ: (Math.random() - 0.5) * 10, // Random slight rotation
-          opacity: 0,
-          scale: 0.8,
-          duration: 1.2,
-          ease: 'power2.inOut',
+      ScrollTrigger.create({
+        trigger: '.cards-section',
+        start: `top+=${i * 200} center`,
+        end: `top+=${(i + 1) * 200} center`,
+        scrub: 1,
+        pin: i === 0 ? '.cards-section' : false,
+        onUpdate: ({ progress }) => {
+          // Animate current card moving down
+          gsap.to(card, {
+            y: i * 12 + progress * 200, // Move down from deck position
+            rotationZ: i * 1 + progress * 10, // Increase rotation
+            opacity: 1 - progress * 0.8, // Fade out
+            scale: (1 - i * 0.03) - progress * 0.2, // Scale down
+            duration: 0.1,
+            ease: 'none',
+          });
+          
+          // Move remaining cards up
+          if (progress > 0.5) {
+            cards.slice(i + 1).forEach((nextCard, j) => {
+              gsap.to(nextCard, {
+                y: (i + 1 + j) * 12 - (progress - 0.5) * 24,
+                scale: (1 - (i + 1 + j) * 0.03) + (progress - 0.5) * 0.06,
+                duration: 0.1,
+                ease: 'none',
+              });
+            });
+          }
         },
-        i * 0.5
-      ) // Animate each card moving to bottom
-        .to(
-          cards.slice(i + 1),
-          {
-            y: `-=${12}`, // Move remaining cards up to take the top position
-            x: `-=${6}`, // Move remaining cards left slightly
-            scale: `+=0.03`, // Scale up to become the new top card
-            rotationZ: `-=${1}`, // Reduce rotation as they move up
-            duration: 1.2,
-            ease: 'power2.inOut',
-          },
-          i * 0.5
-        );
+      });
     }
   });
 };

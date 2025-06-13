@@ -4,9 +4,13 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 export const initRevealAnimations = () => {
   gsap.registerPlugin(ScrollTrigger);
 
-  // Exclude cards from reveal animations since they have their own animation
-  const elements = document.querySelectorAll('.reveal:not(.card), .fade-up:not(.card)');
-  elements.forEach((el) => {
+  // Target reveal and fade-up elements, but exclude cards
+  const revealElements = document.querySelectorAll('.reveal:not(.card)');
+  const fadeUpElements = document.querySelectorAll('.fade-up:not(.card)');
+  
+  // Combine both NodeLists
+  const allElements = [...revealElements, ...fadeUpElements];
+  allElements.forEach((el) => {
     gsap.from(el, {
       opacity: 0,
       y: 50,
