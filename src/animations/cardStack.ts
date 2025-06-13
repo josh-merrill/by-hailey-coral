@@ -3,34 +3,40 @@ import ScrollTrigger from 'gsap/ScrollTrigger';
 
 export const initCardStack = () => {
   gsap.registerPlugin(ScrollTrigger);
-  console.log('✅ initCardStack running with GSAP:', gsap.version);
 
   const cards = gsap.utils.toArray<HTMLElement>('.card');
 
   if (cards.length === 0) {
-    console.warn('No .card elements found');
     return;
   }
 
   const totalCards = cards.length;
 
-  // Set initial state - cards stacked like a deck with slight reveals
+  // Set initial state - cards stacked like a deck with visible offsets
   cards.forEach((card, i) => {
     // Clear any existing animations/transforms first
     gsap.killTweensOf(card);
 
+    // First, clear any inline styles that might interfere
+    gsap.set(card, { clearProps: 'all' });
+
+    // Wait a frame then apply the initial transform
     gsap.set(card, {
       rotationX: 0,
       rotationY: 0,
-      rotationZ: 0, // No random rotation for clean deck look
-      y: i * 4, // Small vertical offset to show cards underneath
-      x: i * 2, // Slight horizontal offset for deck effect
-      scale: 1 - i * 0.01, // Very subtle scale decrease
+      rotationZ: i * 1, // More noticeable rotation for each card
+      y: i * 12, // Even larger vertical offset for visibility
+      x: i * 6, // Larger horizontal offset for deck effect
+      scale: 1 - i * 0.03, // More noticeable scale decrease
       zIndex: totalCards - i,
       transformOrigin: '50% 50%',
       opacity: 1,
-      clearProps: 'transform',
+      // Force 3D transforms for better performance
+      force3D: true,
     });
+
+    // Add data attribute for debugging
+    card.setAttribute('data-card-index', i.toString());
   });
 
   // Create timeline for the stack animation

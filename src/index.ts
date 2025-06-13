@@ -10,6 +10,5 @@ gsap.registerPlugin(ScrollTrigger);
 document.addEventListener('DOMContentLoaded', () => {
   initRevealAnimations();
   initCarousels();
-  initFinsweetCmsSlider();
   initCardStack();
 });
