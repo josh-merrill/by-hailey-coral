@@ -14,7 +14,7 @@ export const initCardStack = () => {
 
   const totalCards = cards.length;
 
-  // Set initial state - cards stacked like postcards
+  // Set initial state - cards stacked like a deck with slight reveals
   cards.forEach((card, i) => {
     // Clear any existing animations/transforms first
     gsap.killTweensOf(card);
@@ -22,15 +22,14 @@ export const initCardStack = () => {
     gsap.set(card, {
       rotationX: 0,
       rotationY: 0,
-      rotationZ: (Math.random() - 0.5) * 4, // Slight random rotation
-      y: i * -8, // Stack cards with more separation
-      x: (Math.random() - 0.5) * 12, // Random horizontal offset for natural look
-      scale: 1 - i * 0.02, // Slightly smaller cards behind
+      rotationZ: 0, // No random rotation for clean deck look
+      y: i * 4, // Small vertical offset to show cards underneath
+      x: i * 2, // Slight horizontal offset for deck effect
+      scale: 1 - i * 0.01, // Very subtle scale decrease
       zIndex: totalCards - i,
-      transformOrigin: '50% 100%', // Flip from bottom like postcards
-      transformStyle: 'preserve-3d',
-      opacity: 1, // Ensure full opacity
-      clearProps: 'transform', // Clear any existing transforms
+      transformOrigin: '50% 50%',
+      opacity: 1,
+      clearProps: 'transform',
     });
   });
 
@@ -46,30 +45,32 @@ export const initCardStack = () => {
     },
   });
 
-  // Animate each card flipping away
+  // Animate each card sliding away from the deck
   cards.forEach((card, i) => {
     if (i < totalCards - 1) {
       tl.to(
         card,
         {
-          rotationX: -180, // Flip backwards like turning a page
-          y: i * -8 - 100, // Move up and away
-          opacity: 0,
-          scale: 0.8,
+          x: 300 + i * 20, // Slide cards to the right and away
+          y: i * 4 - 50, // Move slightly up
+          rotationZ: 15, // Slight rotation as it slides away
+          opacity: 0.3,
+          scale: 0.9,
           duration: 1,
-          ease: 'power2.inOut',
+          ease: 'power2.out',
         },
-        i * 0.3
-      ) // Stagger the animations
+        i * 0.4
+      ) // Stagger the animations with more spacing
         .to(
           cards.slice(i + 1),
           {
-            y: `+=${8}`, // Move remaining cards up
-            scale: `+=0.02`, // Scale up slightly
+            y: `-=${4}`, // Move remaining cards up to fill the gap
+            x: `-=${2}`, // Move remaining cards left slightly
+            scale: `+=0.01`, // Scale up very slightly
             duration: 1,
-            ease: 'power2.inOut',
+            ease: 'power2.out',
           },
-          i * 0.3
+          i * 0.4
         );
     }
   });
