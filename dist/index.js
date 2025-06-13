@@ -6671,10 +6671,14 @@
       gsapWithCSS.set(card, { clearProps: "all" });
       gsapWithCSS.set(card, {
         rotationX: 0,
-        rotationZ: i * 2,
-        y: i * 15,
-        x: i * 8,
-        scale: 1 - i * 0.04,
+        rotationZ: i * 1,
+        // Smaller rotation since cards are larger
+        y: i * 8,
+        // Smaller offsets since cards fill container
+        x: i * 4,
+        // Smaller horizontal offset
+        scale: 1 - i * 0.02,
+        // Smaller scale difference
         zIndex: totalCards - i,
         transformOrigin: "50% 50%",
         opacity: 1,
@@ -6702,11 +6706,11 @@
         tl.to(card, {
           rotationX: 180,
           // Full flip
-          rotationZ: i * 2 + 25,
+          rotationZ: i * 1 + 20,
           // More dramatic rotation
-          y: i * 15 + 300,
+          y: i * 8 + 250,
           // Moves down more
-          scale: (1 - i * 0.04) * 0.4,
+          scale: (1 - i * 0.02) * 0.4,
           // Scales down significantly
           opacity: 0.1,
           // Fades out more completely
@@ -6717,11 +6721,11 @@
         }, startTime);
         cards.slice(i + 1).forEach((nextCard, j) => {
           tl.to(nextCard, {
-            y: (i + j) * 15,
+            y: (i + j) * 8,
             // Move up one position
-            scale: 1 - (i + j) * 0.04,
+            scale: 1 - (i + j) * 0.02,
             // Adjust scale
-            rotationZ: (i + j) * 2,
+            rotationZ: (i + j) * 1,
             // Adjust rotation
             ease: "power2.out",
             duration: duration * 0.7
