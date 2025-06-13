@@ -1,10 +1,11 @@
-import gsap from "gsap";
-import ScrollTrigger from "gsap/ScrollTrigger";
+import gsap from 'gsap';
+import ScrollTrigger from 'gsap/ScrollTrigger';
 
 export const initRevealAnimations = () => {
   gsap.registerPlugin(ScrollTrigger);
 
-  const elements = document.querySelectorAll('.reveal');
+  // Exclude cards from reveal animations since they have their own animation
+  const elements = document.querySelectorAll('.reveal:not(.card)');
   elements.forEach((el) => {
     gsap.from(el, {
       opacity: 0,

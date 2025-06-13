@@ -16,6 +16,9 @@ export const initCardStack = () => {
 
   // Set initial state - cards stacked like postcards
   cards.forEach((card, i) => {
+    // Clear any existing animations/transforms first
+    gsap.killTweensOf(card);
+
     gsap.set(card, {
       rotationX: 0,
       rotationY: 0,
@@ -26,6 +29,8 @@ export const initCardStack = () => {
       zIndex: totalCards - i,
       transformOrigin: '50% 100%', // Flip from bottom like postcards
       transformStyle: 'preserve-3d',
+      opacity: 1, // Ensure full opacity
+      clearProps: 'transform', // Clear any existing transforms
     });
   });
 
