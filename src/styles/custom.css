@@ -54,49 +54,6 @@ html {
   transform-origin: left;
 }
 
-/* Section Styles */
-.section_gallery-middle {
-  position: relative;
-  min-height: 100vh;
-}
-
-/* Carousel Styles */
-.middle-carousel {
-  position: sticky;
-  top: 10vh; /* Adjust as needed */
-  height: 80vh; /* Adjust as needed */
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 2;
-}
-.middle-carousel,
-.middle-carousel .swiper-wrapper {
-  background: transparent !important;
-}
-.middle-carousel .swiper-wrapper {
-  height: 100%;
-}
-.middle-carousel .swiper-slide {
-  background: transparent !important;
-  will-change: transform;
-}
-.middle-carousel .swiper-slide-active {
-  z-index: 10;
-}
-.middle-carousel-slide {
-  box-shadow: none;
-  border-radius: 16px;
-  position: relative;
-  z-index: 1;
-}
-.middle-carousel-slide img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  border-radius: 16px;
-  display: block;
-}
 
 /* Carousel Grid Styles (Top/Bottom) */
 .carousel_top .swiper-wrapper,
@@ -186,6 +143,13 @@ html {
   .carousel_bottom-slide[data-layout] {
     grid-column: span 1;
   }
+}
+
+/* Magnetic Button Styles */
+.magnetic-btn {
+  will-change: transform;
+  cursor: pointer;
+  transition: transform 0.1s ease;
 }
 
 /* Card Stack Styles */
