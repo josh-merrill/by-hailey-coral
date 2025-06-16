@@ -30,7 +30,7 @@ html {
 }
 .navbar1_link {
   position: relative;
-  display: inline;
+  display: inline-block;
   text-decoration: none;
   transition: color 0.3s ease;
   white-space: nowrap;
